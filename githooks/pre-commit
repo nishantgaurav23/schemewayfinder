@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# SchemeWayfinder pre-commit gate — fires no matter which tool commits.
+# Install once:  git config core.hooksPath githooks
+set -euo pipefail
+echo "▶ pre-commit: secret scan, PII guard, tests, lint"
+bash githooks/secret-scan.sh
+bash githooks/no-pii-guard.sh
+make test
+make lint
+echo "✅ pre-commit passed"

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "scheme-search": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "app.mcp.scheme_search.server"],
+      "description": "Custom FastMCP server: find_schemes(profile), get_scheme(id)"
+    },
+    "adk-docs-mcp": {
+      "command": "uvx",
+      "args": ["--from", "mcpdoc", "mcpdoc", "--urls", "AgentDevelopmentKit:https://adk.dev/llms.txt", "--transport", "stdio"]
+    }
+  }
+}

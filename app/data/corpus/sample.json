@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "scheme_name": "Pradhan Mantri Kisan Samman Nidhi",
+    "level": "central",
+    "eligibility_criteria": "Small and marginal farmers; Age 18-60",
+    "documents_required": "Aadhar card; Bank passbook",
+    "url": "https://pmkisan.gov.in"
+  },
+  {
+    "id": "2",
+    "scheme_name": "State Scholarship Scheme",
+    "level": "state",
+    "eligibility_criteria": "Student; Income below 2 Lakhs",
+    "documents_required": "Income certificate; Marksheet"
+  }
+]
