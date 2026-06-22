@@ -189,26 +189,26 @@ schemewayfinder/                  # repo root
 | Spec | Feature | Location | Depends On | Status | Notes |
 |------|---------|----------|------------|--------|-------|
 | S1.1 | Scheme corpus loader | `app/data/loader.py` | S0.1 | done | Load myScheme corpus (HF `shrijayan/gov_myscheme` / Kaggle dataset) into a normalized schema: id, name, level (central/state), eligibility rules, required docs, apply URL. Bundle for reproducibility. |
-| S1.2 | Corpus schema + Pydantic models | `app/models/schemes.py` | S1.1 | pending | `Scheme`, `EligibilityRule`, `CitizenProfile`, `MatchResult` models. Every field typed; validation. |
-| S1.3 | Embeddings + vector index | `app/data/index.py` | S1.1, S1.2 | pending | Build embeddings over scheme eligibility text; local vector store for retrieval. Deterministic, cached. |
+| S1.2 | Corpus schema + Pydantic models | `app/models/schemes.py` | S1.1 | done | `Scheme`, `EligibilityRule`, `CitizenProfile`, `MatchResult` models. Every field typed; validation. |
+| S1.3 | Embeddings + vector index | `app/data/index.py` | S1.1, S1.2 | done | Build embeddings over scheme eligibility text; local vector store for retrieval. Deterministic, cached. |
 
 ### Phase 2 — Custom MCP server (scheme-search)  *(Days 3–4)*
 
 | Spec | Feature | Location | Depends On | Status | Notes |
 |------|---------|----------|------------|--------|-------|
-| S2.1 | FastMCP server bootstrap | `app/mcp/scheme_search/server.py` | S0.2, S1.3 | pending | Stand up FastMCP server; health/list tools; runnable via `python -m`. |
-| S2.2 | `find_schemes(profile)` tool | `app/mcp/scheme_search/tools.py` | S2.1 | pending | Returns ranked candidate schemes for a `CitizenProfile`, with rule-level match detail. Use `mcp-tool-scaffold` skill. |
-| S2.3 | `get_scheme(id)` tool | `app/mcp/scheme_search/tools.py` | S2.1 | pending | Returns full scheme detail incl. required documents + apply URL. |
-| S2.4 | MCP integration test | `tests/mcp/test_scheme_search.py` | S2.2, S2.3 | pending | End-to-end: client calls tools, asserts structured results against known fixtures. |
+| S2.1 | FastMCP server bootstrap | `app/mcp/scheme_search/server.py` | S0.2, S1.3 | done | Stand up FastMCP server; health/list tools; runnable via `python -m`. |
+| S2.2 | `find_schemes(profile)` tool | `app/mcp/scheme_search/tools.py` | S2.1 | done | Returns ranked candidate schemes for a `CitizenProfile`, with rule-level match detail. Use `mcp-tool-scaffold` skill. |
+| S2.3 | get_scheme(id) tool | app/mcp/scheme_search/tools.py | S2.1 | done | Returns full scheme detail incl. required documents + apply URL. |
+| S2.4 | MCP integration test | `tests/mcp/test_scheme_search.py` | S2.2, S2.3 | done | End-to-end: client calls tools, asserts structured results against known fixtures. |
 
 ### Phase 3 — Core agents (English text path)  *(Days 4–6)*
 
 | Spec | Feature | Location | Depends On | Status | Notes |
 |------|---------|----------|------------|--------|-------|
-| S3.1 | Agent contracts + shared state | `app/agents/contracts.py` | S0.2, S1.2 | pending | Define `output_key` → session.state schema; structured handoffs (no free-form relay). |
-| S3.2 | IntakeAgent (text) | `app/agents/intake.py` | S3.1 | pending | Free-text → structured `CitizenProfile`. English-only first. |
-| S3.3 | EligibilityMatcherAgent | `app/agents/matcher.py` | S2.2, S3.1 | pending | ParallelAgent fan-out: central ∥ state scoring via `find_schemes`. Writes ranked matches to state. |
-| S3.4 | Orchestrator (delegation) | `app/agents/orchestrator.py` | S3.2, S3.3 | pending | LlmAgent root; LLM-driven delegation; composes the run. Use `adk-agent-scaffold` skill. |
+| S3.1 | Agent contracts + shared state | `app/agents/contracts.py` | S0.2, S1.2 | done | Define `output_key` → session.state schema; structured handoffs (no free-form relay). |
+| S3.2 | IntakeAgent (text) | `app/agents/intake.py` | S3.1 | done | Free-text → structured `CitizenProfile`. English-only first. |
+| S3.3 | EligibilityMatcherAgent | `app/agents/matcher.py` | S2.2, S3.1 | done | ParallelAgent fan-out: central ∥ state scoring via `find_schemes`. Writes ranked matches to state. |
+| S3.4 | Orchestrator (delegation) | `app/agents/orchestrator.py` | S3.2, S3.3 | done | LlmAgent root; LLM-driven delegation; composes the run. Use `adk-agent-scaffold` skill. |
 
 ### Phase 4 — Document, form & the auditor critic loop  *(Days 6–9)*
 
@@ -268,16 +268,16 @@ schemewayfinder/                  # repo root
 | S0.4 | Spec workflows | `.agents/workflows/*.md` | S0.1 | done |
 | S0.5 | Antigravity build capture | `docs/antigravity/` | S0.1 | spec-written |
 | S1.1 | Scheme corpus loader | `app/data/loader.py` | S0.1 | done |
-| S1.2 | Corpus schema + models | `app/models/schemes.py` | S1.1 | pending |
-| S1.3 | Embeddings + vector index | `app/data/index.py` | S1.1, S1.2 | pending |
-| S2.1 | FastMCP server bootstrap | `app/mcp/scheme_search/server.py` | S0.2, S1.3 | pending |
-| S2.2 | `find_schemes` tool | `app/mcp/scheme_search/tools.py` | S2.1 | pending |
-| S2.3 | `get_scheme` tool | `app/mcp/scheme_search/tools.py` | S2.1 | pending |
-| S2.4 | MCP integration test | `tests/mcp/test_scheme_search.py` | S2.2, S2.3 | pending |
-| S3.1 | Agent contracts + state | `app/agents/contracts.py` | S0.2, S1.2 | pending |
-| S3.2 | IntakeAgent (text) | `app/agents/intake.py` | S3.1 | pending |
-| S3.3 | EligibilityMatcherAgent | `app/agents/matcher.py` | S2.2, S3.1 | pending |
-| S3.4 | Orchestrator | `app/agents/orchestrator.py` | S3.2, S3.3 | pending |
+| S1.2 | Corpus schema + models | `app/models/schemes.py` | S1.1 | done |
+| S1.3 | Embeddings + vector index | `app/data/index.py` | S1.1, S1.2 | done |
+| S2.1 | FastMCP server bootstrap | `app/mcp/scheme_search/server.py` | S0.2, S1.3 | done |
+| S2.2 | `find_schemes` tool | `app/mcp/scheme_search/tools.py` | S2.1 | done |
+| S2.3 | get_scheme tool | app/mcp/scheme_search/tools.py | S2.1 | done |
+| S2.4 | MCP integration test | `tests/mcp/test_scheme_search.py` | S2.2, S2.3 | done |
+| S3.1 | Agent contracts + state | `app/agents/contracts.py` | S0.2, S1.2 | done |
+| S3.2 | IntakeAgent (text) | `app/agents/intake.py` | S3.1 | done |
+| S3.3 | EligibilityMatcherAgent | `app/agents/matcher.py` | S2.2, S3.1 | done |
+| S3.4 | Orchestrator | `app/agents/orchestrator.py` | S3.2, S3.3 | done |
 | S4.1 | DocumentChecklistAgent | `app/agents/documents.py` | S2.3, S3.4 | pending |
 | S4.2 | FormFillerAgent | `app/agents/form_filler.py` | S3.2, S4.1 | pending |
 | S4.3 | RejectionRiskAuditorAgent | `app/agents/auditor.py` | S3.3 | pending |
