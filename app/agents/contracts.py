@@ -8,6 +8,7 @@ MATCHES_KEY = "matches"
 CHECKLIST_KEY = "checklist"
 DRAFT_KEY = "application_draft"
 AUDIT_KEY = "rejection_risk_audit"
+REJECTED_MATCHES_KEY = "rejected_matches"
 EXPLANATION_KEY = "explanation"
 
 
@@ -17,4 +18,5 @@ class SessionState(BaseModel):
     checklist: List[str] = Field(default_factory=list)
     application_draft: Optional[str] = None
     rejection_risk_audit: Optional[dict] = None
+    rejected_matches: List[dict] = Field(default_factory=list)
     explanation: Optional[str] = None

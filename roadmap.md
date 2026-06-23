@@ -214,10 +214,10 @@ schemewayfinder/                  # repo root
 
 | Spec | Feature | Location | Depends On | Status | Notes |
 |------|---------|----------|------------|--------|-------|
-| S4.1 | DocumentChecklistAgent | `app/agents/documents.py` | S2.3, S3.4 | pending | For each matched scheme, assemble required-document checklist. |
-| S4.2 | FormFillerAgent | `app/agents/form_filler.py` | S3.2, S4.1 | pending | Draft application from profile; emit structured form / PDF + apply URL. |
-| S4.3 | RejectionRiskAuditorAgent (LoopAgent) | `app/agents/auditor.py` | S3.3 | pending | **Critic loop**: re-check each match against eligibility rules; flag weak/hallucinated eligibility; `max_iterations`, early-exit on pass. Quality guardrail. |
-| S4.4 | ExplainerAgent | `app/agents/explainer.py` | S4.2, S4.3 | pending | Plain-language summary + next steps + disclaimer. |
+| S4.1 | DocumentChecklistAgent | `app/agents/documents.py` | S2.3, S3.4 | done | For each matched scheme, assemble required-document checklist. |
+| S4.2 | FormFillerAgent | `app/agents/form_filler.py` | S3.2, S4.1 | done | Draft application from profile; emit structured form / PDF + apply URL. |
+| S4.3 | RejectionRiskAuditorAgent (LoopAgent) | `app/agents/auditor.py` | S3.3 | done | **Critic loop**: re-check each match against eligibility rules; flag weak/hallucinated eligibility; `max_iterations`, early-exit on pass. Quality guardrail. |
+| S4.4 | ExplainerAgent | `app/agents/explainer.py` | S4.2, S4.3 | done | Plain-language summary + next steps + disclaimer. |
 | S4.5 | TDD eligibility test set | `eval/personas/`, `eval/scorer.py` | S3.3, S4.3 | pending | Labeled personas (farmer, widow-pension, student, PwD) with known-correct matches. Use `eval-harness` skill. |
 
 ### Phase 5 — Multilingual layer (Bhashini MCP)  *(Days 9–11)*
@@ -278,10 +278,10 @@ schemewayfinder/                  # repo root
 | S3.2 | IntakeAgent (text) | `app/agents/intake.py` | S3.1 | done |
 | S3.3 | EligibilityMatcherAgent | `app/agents/matcher.py` | S2.2, S3.1 | done |
 | S3.4 | Orchestrator | `app/agents/orchestrator.py` | S3.2, S3.3 | done |
-| S4.1 | DocumentChecklistAgent | `app/agents/documents.py` | S2.3, S3.4 | pending |
-| S4.2 | FormFillerAgent | `app/agents/form_filler.py` | S3.2, S4.1 | pending |
-| S4.3 | RejectionRiskAuditorAgent | `app/agents/auditor.py` | S3.3 | pending |
-| S4.4 | ExplainerAgent | `app/agents/explainer.py` | S4.2, S4.3 | pending |
+| S4.1 | DocumentChecklistAgent | `app/agents/documents.py` | S2.3, S3.4 | done |
+| S4.2 | FormFillerAgent | `app/agents/form_filler.py` | S3.2, S4.1 | done |
+| S4.3 | RejectionRiskAuditorAgent | `app/agents/auditor.py` | S3.3 | done |
+| S4.4 | ExplainerAgent | `app/agents/explainer.py` | S4.2, S4.3 | done |
 | S4.5 | TDD eligibility test set | `eval/personas/`, `eval/scorer.py` | S3.3, S4.3 | pending |
 | S5.1 | Bhashini MCP tool | `app/mcp/bhashini/client.py` | S0.2, S3.2 | pending |
 | S5.2 | Intake voice + in-language | `app/agents/intake.py` | S5.1, S3.2 | pending |
