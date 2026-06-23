@@ -1,0 +1,18 @@
+{
+  "profile": {
+    "age": 45,
+    "occupation": "unemployed",
+    "income": 50000,
+    "state": "Karnataka",
+    "category": "general",
+    "disability": true
+  },
+  "expected_matches": [
+    "nsap-disability",
+    "pmaj"
+  ],
+  "expected_rejections": [
+    "nsap-widow",
+    "pm-kisan"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "profile": {
+    "age": 65,
+    "occupation": "unemployed",
+    "income": 12000,
+    "state": "Uttar Pradesh",
+    "category": "obc",
+    "disability": false
+  },
+  "expected_matches": [
+    "nsap-widow",
+    "pmaj"
+  ],
+  "expected_rejections": [
+    "pm-kisan"
+  ]
+}

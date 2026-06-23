@@ -1,0 +1,17 @@
+{
+  "profile": {
+    "age": 35,
+    "occupation": "farmer",
+    "income": 80000,
+    "state": "Maharashtra",
+    "category": "general",
+    "disability": false
+  },
+  "expected_matches": [
+    "pm-kisan",
+    "pmfby"
+  ],
+  "expected_rejections": [
+    "nsap-widow"
+  ]
+}

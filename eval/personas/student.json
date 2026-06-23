@@ -1,0 +1,17 @@
+{
+  "profile": {
+    "age": 19,
+    "occupation": "student",
+    "income": 0,
+    "state": "Bihar",
+    "category": "sc",
+    "disability": false
+  },
+  "expected_matches": [
+    "pms-sc-st"
+  ],
+  "expected_rejections": [
+    "pm-kisan",
+    "nsap-widow"
+  ]
+}
