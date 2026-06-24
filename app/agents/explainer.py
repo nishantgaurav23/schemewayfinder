@@ -3,6 +3,8 @@ from google.adk.agents import LlmAgent
 from pydantic import BaseModel, Field
 from typing import Any
 from app.agents.contracts import EXPLANATION_KEY
+from app.mcp.bhashini.client import BhashiniClient
+import asyncio
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 
@@ -98,10 +100,34 @@ class ExplainerAgent(LlmAgent):
         if disclaimer not in output_text:
             output_text += disclaimer
 
+        source_language = state.get("citizen_profile", {}).get("source_language", "en")
+        if not source_language:
+            source_language = "en"
+
+        translated_text = None
+        audio_bytes = None
+
+        if source_language != "en":
+            bhashini = BhashiniClient()
+            try:
+                translated_text = asyncio.run(bhashini.nmt(output_text, "en", source_language))
+                audio_bytes = asyncio.run(bhashini.tts(translated_text, source_language))
+            except Exception:
+                # If NMT or TTS fails, we degrade gracefully to text only
+                pass
+
         state[EXPLANATION_KEY] = output_text
+        if translated_text:
+            state["translated_explanation"] = translated_text
+        if audio_bytes:
+            state["explanation_audio"] = audio_bytes
 
         if ctx and hasattr(ctx, "state"):
             setattr(ctx.state, EXPLANATION_KEY, output_text)
+            if translated_text:
+                setattr(ctx.state, "translated_explanation", translated_text)
+            if audio_bytes:
+                setattr(ctx.state, "explanation_audio", audio_bytes)
 
         return state
 

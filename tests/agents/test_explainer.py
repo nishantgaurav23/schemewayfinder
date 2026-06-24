@@ -97,3 +97,79 @@ def test_explainer_includes_disclaimer_callback():
     assert "This is a summary." in result["text"]
     assert "Disclaimer:" in result["text"]
     assert "guidance only" in result["text"]
+
+
+@patch("app.agents.explainer.LlmAgent.run")
+def test_explainer_extracts_language(mock_llm_call):
+    mock_llm_call.return_value = {"text": "Some english text"}
+    agent = create_explainer_agent()
+    state = SessionState(
+        citizen_profile=CitizenProfile(
+            age=30,
+            income=50000.0,
+            state="Maharashtra",
+            category="General",
+            disability=False,
+            source_language="mr",
+        )
+    )
+    result = agent.run(state=state)
+    assert result.get("explanation") is not None
+
+
+@patch("app.agents.explainer.BhashiniClient.tts")
+@patch("app.agents.explainer.BhashiniClient.nmt")
+@patch("app.agents.explainer.LlmAgent.run")
+def test_explainer_skips_translation_for_en(mock_llm_call, mock_nmt, mock_tts):
+    mock_llm_call.return_value = {"text": "English summary"}
+    agent = create_explainer_agent()
+    state = SessionState(
+        citizen_profile=CitizenProfile(
+            age=30,
+            income=50000.0,
+            state="Maharashtra",
+            category="General",
+            disability=False,
+            source_language="en",
+        )
+    )
+    result = agent.run(state=state)
+    assert "English summary" in result["explanation"]
+    mock_nmt.assert_not_called()
+    mock_tts.assert_not_called()
+
+
+@pytest.mark.asyncio
+@patch("app.agents.explainer.BhashiniClient.tts")
+@patch("app.agents.explainer.BhashiniClient.nmt")
+@patch("app.agents.explainer.LlmAgent.run")
+def test_explainer_nmt_and_tts(mock_llm_call, mock_nmt, mock_tts):
+    mock_llm_call.return_value = {"text": "English text"}
+
+    async def mock_async_nmt(*args, **kwargs):
+        return "Hindi text"
+
+    async def mock_async_tts(*args, **kwargs):
+        return b"audio_bytes"
+
+    mock_nmt.side_effect = mock_async_nmt
+    mock_tts.side_effect = mock_async_tts
+
+    agent = create_explainer_agent()
+    state = SessionState(
+        citizen_profile=CitizenProfile(
+            age=30,
+            income=50000.0,
+            state="Maharashtra",
+            category="General",
+            disability=False,
+            source_language="hi",
+        )
+    )
+    result = agent.run(state=state)
+
+    mock_nmt.assert_called_once()
+    mock_tts.assert_called_once()
+
+    assert result.get("translated_explanation") == "Hindi text"
+    assert result.get("explanation_audio") == b"audio_bytes"

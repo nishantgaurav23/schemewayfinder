@@ -224,9 +224,9 @@ schemewayfinder/                  # repo root
 
 | Spec | Feature | Location | Depends On | Status | Notes |
 |------|---------|----------|------------|--------|-------|
-| S5.1 | Bhashini MCP tool wiring | `app/mcp/bhashini/client.py` | S0.2, S3.2 | pending | Consume Bhashini via McpToolset: ASR, NMT, TTS. Tenacity retries; graceful timeouts; audio format handling. |
-| S5.2 | IntakeAgent voice + in-language | `app/agents/intake.py` | S5.1, S3.2 | pending | Voice-in → text; translate to working language; carry user's language through. Hindi + 2 more tested. |
-| S5.3 | ExplainerAgent TTS out | `app/agents/explainer.py` | S5.1, S4.4 | pending | Translate summary back + speak via TTS in user's language. |
+| S5.1 | Bhashini MCP tool wiring | `app/mcp/bhashini/client.py` | S0.2, S3.2 | done | Consume Bhashini via McpToolset: ASR, NMT, TTS. Tenacity retries; graceful timeouts; audio format handling. |
+| S5.2 | IntakeAgent voice + in-language | `app/agents/intake.py` | S5.1, S3.2 | done | Voice-in → text; translate to working language; carry user's language through. Hindi + 2 more tested. |
+| S5.3 | ExplainerAgent TTS out | `app/agents/explainer.py` | S5.1, S4.4 | done | Translate summary back + speak via TTS in user's language. |
 
 ### Phase 6 — Security & human-in-the-loop  *(Day 12)*
 
@@ -283,9 +283,9 @@ schemewayfinder/                  # repo root
 | S4.3 | RejectionRiskAuditorAgent | `app/agents/auditor.py` | S3.3 | done |
 | S4.4 | ExplainerAgent | `app/agents/explainer.py` | S4.2, S4.3 | done |
 | S4.5 | TDD eligibility test set | `eval/personas/`, `eval/scorer.py` | S3.3, S4.3 | done |
-| S5.1 | Bhashini MCP tool | `app/mcp/bhashini/client.py` | S0.2, S3.2 | pending |
-| S5.2 | Intake voice + in-language | `app/agents/intake.py` | S5.1, S3.2 | pending |
-| S5.3 | Explainer TTS out | `app/agents/explainer.py` | S5.1, S4.4 | pending |
+| S5.1 | Bhashini MCP tool | `app/mcp/bhashini/client.py` | S0.2, S3.2 | done |
+| S5.2 | Intake voice + in-language | `app/agents/intake.py` | S5.1, S3.2 | done |
+| S5.3 | Explainer TTS out | `app/agents/explainer.py` | S5.1, S4.4 | done |
 | S6.1 | HITL confirmation gate | `app/agents/orchestrator.py` | S4.2 | pending |
 | S6.2 | Input guardrails | `app/agents/guards.py` | S3.2 | pending |
 | S6.3 | PII minimization + TTL | `app/db/session.py` | S0.1 | pending |

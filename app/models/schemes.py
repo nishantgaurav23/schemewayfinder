@@ -47,6 +47,9 @@ class CitizenProfile(BaseModel):
     category: str
     disability: bool
     occupation: Optional[str] = None
+    source_language: str = Field(
+        default="en", description="The original language of the user's input"
+    )
 
 
 class MatchResult(BaseModel):
